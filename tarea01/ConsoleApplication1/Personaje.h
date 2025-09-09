@@ -61,7 +61,7 @@ protected:
 	void restaurarEstado();
 
 public:
-	Personaje(const string& n, double v, int d, int a);
+	Personaje(const string& n, double v, int d, int a, const vector<Item>& armas);
 
 	void atacar(Personaje& enemigo);
 	void defender();

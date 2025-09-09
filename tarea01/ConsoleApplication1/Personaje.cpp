@@ -11,7 +11,7 @@ const double VIDA_BASE = 20.0;
 const int DEFENSA_BASE = 10;
 const int ATAQUE_INCREMENTO_NIVEL = 2;
 
-Personaje::Personaje(const string& n, double v, int d, int a) {
+Personaje::Personaje(const string& n, double v, int d, int a, const vector<Item>& armas) {
 	nombre = n;
 	vida = v;
 	defensa = d;
@@ -19,16 +19,30 @@ Personaje::Personaje(const string& n, double v, int d, int a) {
 	nivel = 1;
 	estaVivo = true;
 	habilidadLista = true;
-	// Inicializar con un arma básica
-	items.push_back({ "Arma Básica", 2 });
+	items = armas;
 }
 
+// metodo privado 
 void Personaje::recibirDaño(int cantidad) {
+	if (getDefensa() >= cantidad) {
+		setDefensa(getDefensa() - cantidad);
+	}
+	else {	
+		int dañoTotal = cantidad - getDefensa();
+		setDefensa(0);
+		setVida(getVida() - dañoTotal);
 
+		if (getVida() <= 0) {
+			setVida(0);
+			setEstaVivo(false);
+			cout << nombre << " ha sido derrotado! " << endl;
+		}
+	}
 }
 
 // Metodo privado: devuelve el arma con mayor daño
 Item Personaje::obtenerMejorArma() {
+	
 
 }
 
@@ -38,12 +52,10 @@ void Personaje::restaurarEstado() {
 }
 
 void Personaje::atacar(Personaje& enemigo) {
-
+	enemigo.recibirDaño(ataqueBase);
 }
 
-void Personaje::defender() {
 
-}
 
 void Personaje::usarHabilidadEspecial() {
 

@@ -12,7 +12,6 @@ const int INCREMENTO_MINIMO = 1;
 
 Personaje::Personaje(const string& n, double v, int d, int a, const vector<Item>& armas) {
 	nombre = n;
-	primeraVida = v;
 	vida = v;
 	defensa = d;
 	ataqueBase = a;
@@ -22,7 +21,7 @@ Personaje::Personaje(const string& n, double v, int d, int a, const vector<Item>
 }
 
 // metodo privado 
-void Personaje::recibirDaño(int cantidad) {
+void Personaje::recibirDaño(int cantidad, Personaje& enemigo) {
 	if (getDefensa() >= cantidad) {
 		setDefensa(getDefensa() - cantidad);
 	}
@@ -34,7 +33,17 @@ void Personaje::recibirDaño(int cantidad) {
 		if (getVida() <= 0) {
 			setVida(0);
 			setEstaVivo(false);
+
+			if ( items.empty() ) {
+				cout << nombre << " no tiene armas para entregar." << endl;
+				return;
+			}
+
+			Item item = obtenerMejorArma();
+			item.disponible = true;
+			asignarArma(item, enemigo);
 			cout << nombre << " ha sido derrotado! " << endl;
+
 		}
 	}
 }
@@ -48,9 +57,14 @@ Item Personaje::obtenerMejorArma() {
 	for (auto arma : items) {
 		if (arma.daño > mejorArma.daño) {
 			mejorArma = arma;
+			mejorArma.disponible = false;
 		}
 	}
 	return mejorArma;
+}
+
+void Personaje::asignarArma(const Item& item, Personaje& enemigo) {
+	enemigo.items.push_back(item);
 }
 
 
@@ -67,11 +81,11 @@ void Personaje::usarHabilidadEspecial() {
 		cout << "Habilidad especial no está lista para " << nombre << "!" << endl;
 		return;
 	}
-	srand(time(0));
+	srand(time(0)); // mandar al main
 	int incremento = rand() % (INCREMENTO_MAXIMO - INCREMENTO_MINIMO + 1) + INCREMENTO_MINIMO;
 	setAtaqueBase(getAtaqueBase() + incremento);
 	cout << nombre << " usa su habilidad especial! Ataque incrementado en " << incremento << " puntos." << endl;
-
+	setHabilidadLista(false);
 }
 
 

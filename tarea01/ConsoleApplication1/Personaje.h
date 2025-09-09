@@ -39,6 +39,7 @@ using namespace std;
 struct Item {
 	string nombre;
 	int daño;
+	bool disponible = true;
 };
 
 class Personaje {
@@ -52,17 +53,16 @@ private:
 	vector<Item> items;
 
 	// aplica daño al personaje, primero a defensa, luego a la vida
-	void recibirDaño(int cantidad);
+	void recibirDaño(int cantidad, Personaje& enemigo);
 	Item obtenerMejorArma();
-
+	
 protected:
-	Item obtenerMejorArma();
+	void asignarArma(const Item& item, Personaje& enemigo);
 
 public:
 	Personaje(const string& n, double v, int d, int a, const vector<Item>& armas);
 
 	void atacar(Personaje& enemigo);
-	void defender();
 	void usarHabilidadEspecial();
 	void mostrarEstado();
 

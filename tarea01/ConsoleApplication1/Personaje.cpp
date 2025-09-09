@@ -7,8 +7,8 @@
 using namespace std;
 
 
-const double VIDA_BASE = 20.0;
-const int DEFENSA_BASE = 10;
+const int INCREMENTO_MAXIMO = 5;
+const int INCREMENTO_MINIMO = 1;
 const int ATAQUE_INCREMENTO_NIVEL = 2;
 
 Personaje::Personaje(const string& n, double v, int d, int a, const vector<Item>& armas) {
@@ -42,8 +42,16 @@ void Personaje::recibirDaño(int cantidad) {
 
 // Metodo privado: devuelve el arma con mayor daño
 Item Personaje::obtenerMejorArma() {
-	
-
+	if (items.empty()) {
+		return {"Puños", 0}; 
+	}
+	Item mejorArma = items[0];	
+	for (auto arma : items) {
+		if (arma.daño > mejorArma.daño) {
+			mejorArma = arma;
+		}
+	}
+	return mejorArma;
 }
 
 // Método protegido: restaura vida y defensa al subir de nivel
@@ -52,12 +60,22 @@ void Personaje::restaurarEstado() {
 }
 
 void Personaje::atacar(Personaje& enemigo) {
-	enemigo.recibirDaño(ataqueBase);
+	cout << nombre << " ataca a " << enemigo.getNombre() << "!" << endl;	
+	int ataqueArma = obtenerMejorArma().daño;
+	int ataqueTotal = getAtaqueBase() + ataqueArma;
+	enemigo.recibirDaño(ataqueTotal);
 }
-
-
-
+ 
+// aumenta el ataque base 
 void Personaje::usarHabilidadEspecial() {
+	if (!getHabilidadLista()) {
+		cout << "Habilidad especial no está lista para " << nombre << "!" << endl;
+		return;
+	}
+	srand(time(0));
+	int incremento = rand() % (INCREMENTO_MAXIMO - INCREMENTO_MINIMO + 1) + INCREMENTO_MINIMO;
+	setAtaqueBase(getAtaqueBase() + incremento);
+	cout << nombre << " usa su habilidad especial! Ataque incrementado en " << incremento << " puntos." << endl;
 
 }
 
@@ -100,4 +118,19 @@ string Personaje::getNombre() {
 
 void Personaje::setNombre(string nuevoNombre) { 
 	nombre = nuevoNombre; 
+}
+
+int Personaje::getAtaqueBase() {
+	return ataqueBase;
+}
+
+void Personaje::setAtaqueBase(int nuevoAtaque) {
+	ataqueBase = nuevoAtaque;
+}
+
+void Personaje::setHabilidadLista(bool nuevoEstado) {
+	habilidadLista = nuevoEstado;
+}
+bool Personaje::getHabilidadLista() {
+	return habilidadLista;
 }

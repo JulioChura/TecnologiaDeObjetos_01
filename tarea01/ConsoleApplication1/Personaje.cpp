@@ -55,7 +55,7 @@ Item Personaje::obtenerMejorArma() {
 	}
 	Item mejorArma = items[0];	
 	for (auto arma : items) {
-		if (arma.daño > mejorArma.daño) {
+		if (arma.daño > mejorArma.daño && arma.disponible ) {
 			mejorArma = arma;
 			mejorArma.disponible = false;
 		}

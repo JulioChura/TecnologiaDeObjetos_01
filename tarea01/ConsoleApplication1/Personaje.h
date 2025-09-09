@@ -44,11 +44,9 @@ struct Item {
 class Personaje {
 private:
 	string nombre;
-	double primeraVida; // la primera vida que se le asigne será usada para regenerar al personaje cuando suba de nivel
 	double vida;
 	int defensa;
 	int ataqueBase;
-	int nivel;
 	bool estaVivo;
 	bool habilidadLista;
 	vector<Item> items;
@@ -58,8 +56,7 @@ private:
 	Item obtenerMejorArma();
 
 protected:
-	// recuperar vida y defensa al subir de nivel
-	void restaurarEstado();
+	Item obtenerMejorArma();
 
 public:
 	Personaje(const string& n, double v, int d, int a, const vector<Item>& armas);
@@ -67,7 +64,6 @@ public:
 	void atacar(Personaje& enemigo);
 	void defender();
 	void usarHabilidadEspecial();
-	void subirNivel(Personaje& enemigoDerrotado);
 	void mostrarEstado();
 
 	// Getters y setters

@@ -9,7 +9,6 @@ using namespace std;
 
 const int INCREMENTO_MAXIMO = 5;
 const int INCREMENTO_MINIMO = 1;
-const int ATAQUE_INCREMENTO_NIVEL = 2;
 
 Personaje::Personaje(const string& n, double v, int d, int a, const vector<Item>& armas) {
 	nombre = n;
@@ -17,7 +16,6 @@ Personaje::Personaje(const string& n, double v, int d, int a, const vector<Item>
 	vida = v;
 	defensa = d;
 	ataqueBase = a;
-	nivel = 1;
 	estaVivo = true;
 	habilidadLista = true;
 	items = armas;
@@ -55,10 +53,6 @@ Item Personaje::obtenerMejorArma() {
 	return mejorArma;
 }
 
-// Método protegido: restaura vida y defensa al subir de nivel
-void Personaje::restaurarEstado() {
-
-}
 
 void Personaje::atacar(Personaje& enemigo) {
 	cout << nombre << " ataca a " << enemigo.getNombre() << "!" << endl;	
@@ -80,9 +74,6 @@ void Personaje::usarHabilidadEspecial() {
 
 }
 
-void Personaje::subirNivel(Personaje& enemigoDerrotado) {
-
-}
 
 void Personaje::mostrarEstado() {
 

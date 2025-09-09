@@ -39,29 +39,42 @@ void Personaje::recibirDaño(int cantidad, Personaje& enemigo) {
 				return;
 			}
 
-			Item item = obtenerMejorArma();
-			item.disponible = true;
+			Item item = obtenerArmaParaEntregar();  
+			item.disponible = true;          
 			asignarArma(item, enemigo);
+
 			cout << nombre << " ha sido derrotado! " << endl;
 
 		}
 	}
 }
 
-// Metodo privado: devuelve el arma con mayor daño
-Item Personaje::obtenerMejorArma() {
-	if (items.empty()) {
-		return {"Puños", 0}; 
-	}
-	Item mejorArma = items[0];	
-	for (auto arma : items) {
-		if (arma.daño > mejorArma.daño && arma.disponible ) {
-			mejorArma = arma;
-			mejorArma.disponible = false;
+Item* Personaje::buscarMejorArma(bool soloDisponibles) {
+	Item* mejorArma = nullptr;
+	for (Item& arma : items) {
+		if ((soloDisponibles ? arma.disponible : true) &&
+			(mejorArma == nullptr || arma.daño > mejorArma->daño)) {
+			mejorArma = &arma;
 		}
 	}
 	return mejorArma;
 }
+
+// Usar para atacar
+Item Personaje::obtenerArmaParaAtacar() {
+	Item* arma = buscarMejorArma(true); // solo disponibles
+	if (!arma) return { "Puños", 0 };
+	arma->disponible = false; 
+	return *arma;
+}
+
+// Usar para entregar la arma al enemigo
+Item Personaje::obtenerArmaParaEntregar() {
+	Item* arma = buscarMejorArma(false); // ignora si está o no disponible
+	if (!arma) return { "Puños", 0 };
+	return *arma; 
+}
+
 
 void Personaje::asignarArma(const Item& item, Personaje& enemigo) {
 	enemigo.items.push_back(item);
@@ -70,9 +83,9 @@ void Personaje::asignarArma(const Item& item, Personaje& enemigo) {
 
 void Personaje::atacar(Personaje& enemigo) {
 	cout << nombre << " ataca a " << enemigo.getNombre() << "!" << endl;	
-	int ataqueArma = obtenerMejorArma().daño;
-	int ataqueTotal = getAtaqueBase() + ataqueArma;
-	enemigo.recibirDaño(ataqueTotal);
+	Item arma = obtenerArmaParaAtacar();  
+	int ataqueTotal = getAtaqueBase() + arma.daño;
+	enemigo.recibirDaño(ataqueTotal, *this);  
 }
  
 // aumenta el ataque base 

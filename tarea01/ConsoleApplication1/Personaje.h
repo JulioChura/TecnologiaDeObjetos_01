@@ -54,8 +54,11 @@ private:
 
 	// aplica daño al personaje, primero a defensa, luego a la vida
 	void recibirDaño(int cantidad, Personaje& enemigo);
-	Item obtenerMejorArma();
-	
+	// si se pasa true se busca solo las disponibles y false ignora disponibilidad 
+	Item* buscarMejorArma(bool soloDisponibles);
+	Item obtenerArmaParaEntregar();
+	Item obtenerArmaParaAtacar();
+
 protected:
 	void asignarArma(const Item& item, Personaje& enemigo);
 

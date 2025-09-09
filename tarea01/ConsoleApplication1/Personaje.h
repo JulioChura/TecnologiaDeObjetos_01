@@ -44,6 +44,7 @@ struct Item {
 class Personaje {
 private:
 	string nombre;
+	double primeraVida; // la primera vida que se le asigne será usada para regenerar al personaje cuando suba de nivel
 	double vida;
 	int defensa;
 	int ataqueBase;
@@ -80,7 +81,13 @@ public:
 	void setEstaVivo(bool estado);
 
 	string getNombre();
-	void setNombre(string nombre);
+	void setNombre(string nuevoNombre);
+
+	void setAtaqueBase(int nuevoAtaque);
+	int getAtaqueBase();
+
+	void setHabilidadLista(bool nuevoEstado);
+	bool getHabilidadLista();
 
 };
 

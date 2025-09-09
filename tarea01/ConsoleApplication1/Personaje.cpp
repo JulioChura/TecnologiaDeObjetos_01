@@ -13,6 +13,7 @@ const int ATAQUE_INCREMENTO_NIVEL = 2;
 
 Personaje::Personaje(const string& n, double v, int d, int a, const vector<Item>& armas) {
 	nombre = n;
+	primeraVida = v;
 	vida = v;
 	defensa = d;
 	ataqueBase = a;

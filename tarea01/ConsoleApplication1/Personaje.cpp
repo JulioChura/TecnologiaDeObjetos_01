@@ -51,7 +51,6 @@ Item* Personaje::buscarMejorArma(bool soloDisponibles) {
 	for (Item& arma : items) {
 		if (soloDisponibles && !arma.disponible) continue;
 
-		// Si aún no hay mejor arma o esta arma es mejor, actualizar
 		if (!mejorArma || arma.danio > mejorArma->danio) {
 			mejorArma = &arma;
 		}

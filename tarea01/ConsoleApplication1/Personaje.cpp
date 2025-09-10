@@ -21,14 +21,14 @@ Personaje::Personaje(const string& n, double v, int d, int a, const vector<Item>
 }
 
 // metodo privado 
-void Personaje::recibirDaño(int cantidad, Personaje& enemigo) {
+void Personaje::recibirDanio(int cantidad, Personaje& enemigo) {
 	if (getDefensa() >= cantidad) {
 		setDefensa(getDefensa() - cantidad);
 	}
 	else {	
-		int dañoTotal = cantidad - getDefensa();
+		int danioTotal = cantidad - getDefensa();
 		setDefensa(0);
-		setVida(getVida() - dañoTotal);
+		setVida(getVida() - danioTotal);
 
 		if (getVida() <= 0) {
 			setVida(0);
@@ -53,7 +53,7 @@ Item* Personaje::buscarMejorArma(bool soloDisponibles) {
 	Item* mejorArma = nullptr;
 	for (Item& arma : items) {
 		if ((soloDisponibles ? arma.disponible : true) &&
-			(mejorArma == nullptr || arma.daño > mejorArma->daño)) {
+			(mejorArma == nullptr || arma.danio > mejorArma->danio)) {
 			mejorArma = &arma;
 		}
 	}
@@ -84,8 +84,8 @@ void Personaje::asignarArma(const Item& item, Personaje& enemigo) {
 void Personaje::atacar(Personaje& enemigo) {
 	cout << nombre << " ataca a " << enemigo.getNombre() << "!" << endl;	
 	Item arma = obtenerArmaParaAtacar();  
-	int ataqueTotal = getAtaqueBase() + arma.daño;
-	enemigo.recibirDaño(ataqueTotal, *this);  
+	int ataqueTotal = getAtaqueBase() + arma.danio;
+	enemigo.recibirDanio(ataqueTotal, *this);  
 }
  
 // aumenta el ataque base 
@@ -103,7 +103,20 @@ void Personaje::usarHabilidadEspecial() {
 
 
 void Personaje::mostrarEstado() {
-
+    if(estaVivo){
+        cout<<"Estado de " <<nombre << endl;
+        cout<<"Vida: " <<vida << endl;
+        cout<<"Defensa: "<< defensa << endl;
+        cout<<"Ataque: "<< ataqueBase << endl;
+        //Para mostrar armas
+        if(!items.empty()){
+        cout<<"Arma: "<< items[0].nombre <<" | Daño: "<< items[0].danio << endl;
+        } else{
+            cout << "Sin armas" << endl;
+        }
+    }
+    else
+        cout<< nombre << " está muerto" <<endl;
 }
 
 // Getters y setters

@@ -38,7 +38,7 @@ using namespace std;
 
 struct Item {
 	string nombre;
-	int daño;
+	int danio;
 	bool disponible = true;
 };
 
@@ -53,7 +53,7 @@ private:
 	vector<Item> items;
 
 	// aplica daño al personaje, primero a defensa, luego a la vida
-	void recibirDaño(int cantidad, Personaje& enemigo);
+	void recibirDanio(int cantidad, Personaje& enemigo);
 	// si se pasa true se busca solo las disponibles y false ignora disponibilidad 
 	Item* buscarMejorArma(bool soloDisponibles);
 	Item obtenerArmaParaEntregar();

@@ -1,19 +1,78 @@
-// ConsoleApplication1.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
-//
-
 #include <iostream>
+#include <vector>
+#include <string>
+#include "Personaje.h"
 
-int main()
-{
-    std::cout << "Hello World!\n";
+using namespace std;
+
+int main() {
+    //Semilla para números aleatorios
+    srand(time(0));
+
+    string nombre1, nombre2;
+    double vida1, vida2;
+    int defensa1, defensa2, ataque1, ataque2;
+
+    cout << "Jugador 1 crea tu personaje" << endl;
+    cout << "Nombre: ";
+    cin >> nombre1;
+    cout << "Vida: ";
+    cin >> vida1;
+    cout << "Defensa: ";
+    cin >> defensa1;
+    cout << "Ataque base: ";
+    cin >> ataque1;
+    //la primer arma
+    vector<Item> armas1 = {  };
+    Personaje jugador1(nombre1, vida1, defensa1, ataque1, armas1);
+
+    cout << "\nJugador 2 crea tu personaje" << endl;
+    cout << "Nombre: ";
+    cin >> nombre2;
+    cout << "Vida: ";
+    cin >> vida2;
+    cout << "Defensa: ";
+    cin >> defensa2;
+    cout << "Ataque base: ";
+    cin >> ataque2;
+    //segunda arma
+    vector<Item> armas2 = { {"hacha", 4} };
+    Personaje jugador2(nombre2, vida2, defensa2, ataque2, armas2);
+
+    cout << "\n" << jugador1.getNombre() << " VS " << jugador2.getNombre() << "\n" << endl;
+    jugador1.mostrarEstado();
+    cout << endl;
+    jugador2.mostrarEstado();
+    cout << endl;
+
+    cout << "Comienza el enfrentamiento" << endl;
+
+    int turno = 1;
+    while (jugador1.getEstaVivo() && jugador2.getEstaVivo()) {
+        cout << "\nTurno " << turno << endl;
+
+        if (turno % 2 == 1) {
+            jugador1.atacar(jugador2);
+        }
+        else {
+            jugador2.atacar(jugador1);
+        }
+
+        cout << endl;
+        jugador1.mostrarEstado();
+        cout << endl;
+        jugador2.mostrarEstado();
+
+        turno++;
+    }
+
+    cout << "\nFin del enfrentamiento" << endl;
+    if (jugador1.getEstaVivo()) {
+        cout << jugador1.getNombre() << " es el ganador!" << endl;
+    }
+    else {
+        cout << jugador2.getNombre() << " es el ganador!" << endl;
+    }
+
+    return 0;
 }
-
-// Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
-// Depurar programa: F5 o menú Depurar > Iniciar depuración
-
-// Sugerencias para primeros pasos: 1. Use la ventana del Explorador de soluciones para agregar y administrar archivos
-//   2. Use la ventana de Team Explorer para conectar con el control de código fuente
-//   3. Use la ventana de salida para ver la salida de compilación y otros mensajes
-//   4. Use la ventana Lista de errores para ver los errores
-//   5. Vaya a Proyecto > Agregar nuevo elemento para crear nuevos archivos de código, o a Proyecto > Agregar elemento existente para agregar archivos de código existentes al proyecto
-//   6. En el futuro, para volver a abrir este proyecto, vaya a Archivo > Abrir > Proyecto y seleccione el archivo .sln

@@ -49,7 +49,6 @@ private:
 	int defensa;
 	int ataqueBase;
 	bool estaVivo;
-	bool habilidadLista;
 	vector<Item> items;
 
 	// aplica daño al personaje, primero a defensa, luego a la vida
@@ -66,7 +65,6 @@ public:
 	Personaje(const string& n, double v, int d, int a, const vector<Item>& armas);
 
 	void atacar(Personaje& enemigo);
-	void usarHabilidadEspecial();
 	void mostrarEstado();
 
 	// Getters y setters
@@ -85,8 +83,8 @@ public:
 	void setAtaqueBase(int nuevoAtaque);
 	int getAtaqueBase();
 
-	void setHabilidadLista(bool nuevoEstado);
-	bool getHabilidadLista();
+	void mostrarItems();
+
 
 };
 

@@ -7,8 +7,6 @@
 using namespace std;
 
 
-const int INCREMENTO_MAXIMO = 5;
-const int INCREMENTO_MINIMO = 1;
 
 Personaje::Personaje(const string& n, double v, int d, int a, const vector<Item>& armas) {
 	nombre = n;
@@ -16,7 +14,6 @@ Personaje::Personaje(const string& n, double v, int d, int a, const vector<Item>
 	defensa = d;
 	ataqueBase = a;
 	estaVivo = true;
-	habilidadLista = true;
 	items = armas;
 }
 
@@ -52,13 +49,16 @@ void Personaje::recibirDanio(int cantidad, Personaje& enemigo) {
 Item* Personaje::buscarMejorArma(bool soloDisponibles) {
 	Item* mejorArma = nullptr;
 	for (Item& arma : items) {
-		if ((soloDisponibles ? arma.disponible : true) &&
-			(mejorArma == nullptr || arma.danio > mejorArma->danio)) {
+		if (soloDisponibles && !arma.disponible) continue;
+
+		// Si aún no hay mejor arma o esta arma es mejor, actualizar
+		if (!mejorArma || arma.danio > mejorArma->danio) {
 			mejorArma = &arma;
 		}
 	}
 	return mejorArma;
 }
+
 
 // Usar para atacar
 Item Personaje::obtenerArmaParaAtacar() {
@@ -87,19 +87,6 @@ void Personaje::atacar(Personaje& enemigo) {
 	int ataqueTotal = getAtaqueBase() + arma.danio;
 	enemigo.recibirDanio(ataqueTotal, *this);  
 }
- 
-// aumenta el ataque base 
-void Personaje::usarHabilidadEspecial() {
-	if (!getHabilidadLista()) {
-		cout << "Habilidad especial no está lista para " << nombre << "!" << endl;
-		return;
-	}
-	srand(time(0)); // mandar al main
-	int incremento = rand() % (INCREMENTO_MAXIMO - INCREMENTO_MINIMO + 1) + INCREMENTO_MINIMO;
-	setAtaqueBase(getAtaqueBase() + incremento);
-	cout << nombre << " usa su habilidad especial! Ataque incrementado en " << incremento << " puntos." << endl;
-	setHabilidadLista(false);
-}
 
 
 void Personaje::mostrarEstado() {
@@ -108,16 +95,26 @@ void Personaje::mostrarEstado() {
         cout<<"Vida: " <<vida << endl;
         cout<<"Defensa: "<< defensa << endl;
         cout<<"Ataque: "<< ataqueBase << endl;
-        //Para mostrar armas
-        if(!items.empty()){
-        cout<<"Arma: "<< items[0].nombre <<" | Daño: "<< items[0].danio << endl;
-        } else{
-            cout << "Sin armas" << endl;
-        }
+		mostrarItems();
     }
     else
         cout<< nombre << " está muerto" <<endl;
 }
+
+void Personaje::mostrarItems() {
+	if (items.empty()) {
+		cout << nombre << " no tiene armas." << endl;
+		return;
+	}
+	else {
+		cout << "Armas de " << nombre << ":" << endl;
+		for (const Item& arma : items) {
+			cout << "- " << arma.nombre << " (Daño: " << arma.danio 
+				 << ", " << (arma.disponible ? "Disponible" : "No disponible") << ")" << endl;
+		}
+	}
+}
+
 
 // Getters y setters
 double Personaje::getVida() { 
@@ -160,9 +157,3 @@ void Personaje::setAtaqueBase(int nuevoAtaque) {
 	ataqueBase = nuevoAtaque;
 }
 
-void Personaje::setHabilidadLista(bool nuevoEstado) {
-	habilidadLista = nuevoEstado;
-}
-bool Personaje::getHabilidadLista() {
-	return habilidadLista;
-}

@@ -24,10 +24,10 @@ public class Main {
             
             // Intentar usar pociones (10% probabilidad cada turno)
             if (guerrero.intentarUsarPocion()) {
-                guerrero.setNombre(guerrero.getNombre() + " [POTENCIADO]"); // Marca visual
+                guerrero.setNombre(guerrero.getNombre() + " [POTENCIADO]"); 
             }
             if (mago.intentarUsarPocion()) {
-                mago.setNombre(mago.getNombre() + " [POTENCIADO]"); // Marca visual
+                mago.setNombre(mago.getNombre() + " [POTENCIADO]"); 
             }
             
             // Mostrar vida restante

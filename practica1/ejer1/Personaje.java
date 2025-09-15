@@ -1,18 +1,17 @@
 public class Personaje {
     
-    private String nombre;           // String
-    private int vida;               // int
-    private double fuerza;          // double
-    private boolean esVivo;         // boolean
-    private boolean pocionUsada;    // Controla si ya usó la poción
-    private int turnosBoost;        // Turnos restantes de boost
+    private String nombre;          
+    private int vida;               
+    private double fuerza;         
+    private boolean esVivo;         
+    private boolean pocionUsada;    
+    private int turnosBoost;       
     
-    // Constructor
     public Personaje(String nombre, int vida, double fuerza) {
         this.nombre = nombre;
         this.vida = vida;
         this.fuerza = fuerza;
-        this.esVivo = true; // Al crear el personaje está vivo
+        this.esVivo = true; 
         this.pocionUsada = false;
         this.turnosBoost = 0;
     }
@@ -74,47 +73,7 @@ public class Personaje {
             System.out.println(this.nombre + " ha sido derrotado!");
         }
     }
-    
-    // GETTER para nombre
-    public String getNombre() {
-        return nombre;
-    }
-    
-    // SETTER para nombre
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    
-    // GETTER para vida
-    public int getVida() {
-        return vida;
-    }
-    
-    // SETTER para vida
-    public void setVida(int vida) {
-        this.vida = vida;
-        if (this.vida <= 0) {
-            this.esVivo = false;
-        } else {
-            this.esVivo = true;
-        }
-    }
-    
-    // GETTER para fuerza
-    public double getFuerza() {
-        return fuerza;
-    }
-    
-    // SETTER para fuerza
-    public void setFuerza(double fuerza) {
-        this.fuerza = fuerza;
-    }
-    
-    // GETTER para esVivo
-    public boolean isVivo() {
-        return esVivo;
-    }
-    
+
     // Método para usar una poción de daño (10% probabilidad, una vez por batalla)
     public boolean intentarUsarPocion() {
         if (!this.pocionUsada && this.esVivo && Math.random() < 0.1) {
@@ -126,6 +85,58 @@ public class Personaje {
         }
         return false;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
     
+    public void setNombre(String nombre) {
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            this.nombre = nombre;
+        }
+    }
     
+    public int getVida() {
+        return vida;
+    }
+    
+    public void setVida(int vida) {
+        if (vida < 0) {
+            this.vida = 0;
+            this.esVivo = false;
+        } else if (vida > 100) {
+            this.vida = 100;
+        } else {
+            this.vida = vida;
+            this.esVivo = true;
+        }
+    }
+    
+    public double getFuerza() {
+        return fuerza;
+    }
+    
+    public void setFuerza(double fuerza) {
+        if (fuerza > 0) {
+            this.fuerza = fuerza;
+        }
+    }
+    
+    public boolean isVivo() {
+        return esVivo;
+    }
+    
+    public boolean isPocionUsada() {
+        return pocionUsada;
+    }
+    
+    public int getTurnosBoost() {
+        return turnosBoost;
+    }
+    
+    public void setTurnosBoost(int turnosBoost) {
+        if (turnosBoost >= 0) {
+            this.turnosBoost = turnosBoost;
+        }
+    }
 }

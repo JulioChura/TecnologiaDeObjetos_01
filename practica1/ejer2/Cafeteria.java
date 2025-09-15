@@ -16,6 +16,15 @@ public class Cafeteria {
         productos.add(new Producto("Pastel", 4.0));
     }
 
+    public Cliente buscarClientePorNombre(String nombre) {
+        for (Cliente c : clientes) {
+            if (c.getNombre().equalsIgnoreCase(nombre)) {
+                return c;
+            }
+        }
+        return null;
+    }
+    
     public void registrarCliente(Cliente c) {
         clientes.add(c);
     }

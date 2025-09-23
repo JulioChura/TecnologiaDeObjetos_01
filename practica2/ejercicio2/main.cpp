@@ -1,5 +1,5 @@
 #include <iostream>
-#include "zoologico.cpp"
+#include "zoologico.h"
 using namespace std;
 int main() {
     cout << "=== SISTEMA DE GESTION DE ALIMENTACION - ZOOLOGICO ===\n";

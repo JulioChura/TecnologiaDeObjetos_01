@@ -1,156 +1,118 @@
-#include <iostream>
-#include <vector>
-#include <string>
-using namespace std;
+#include "zoologico.h"
 
-class Animal {
-private:
-    string nombre;
-    string especie;
-    float peso;
-    int horasDesdeUltimaComida;
-    bool tieneHambre;
+Animal::Animal(string nom, string esp, float p) {
+    nombre = nom;
+    especie = esp;
+    peso = p;
+    horasDesdeUltimaComida = 8;
+    tieneHambre = true;
+}
 
-public:
-    Animal(string nom, string esp, float p) {
-        nombre = nom;
-        especie = esp;
-        peso = p;
-        horasDesdeUltimaComida = 8; // Inicia con hambre
+void Animal::mostrarInfo() {
+    cout << nombre << " (" << especie << ") - Peso: " << peso << "kg - "
+         << "Horas sin comer: " << horasDesdeUltimaComida;
+    if (tieneHambre) {
+        cout << " [HAMBRIENTO]";
+    } else {
+        cout << " [ALIMENTADO]";
+    }
+    cout << endl;
+}
+
+void Animal::alimentar() {
+    horasDesdeUltimaComida = 0;
+    tieneHambre = false;
+    cout << nombre << " ha sido alimentado.\n";
+}
+
+void Animal::pasarTiempo(int horas) {
+    horasDesdeUltimaComida += horas;
+    if (horasDesdeUltimaComida >= 6) {
         tieneHambre = true;
     }
-    
-    void mostrarInfo() {
-        cout << nombre << " (" << especie << ") - Peso: " << peso << "kg - "
-             << "Horas sin comer: " << horasDesdeUltimaComida;
-        if (tieneHambre) {
-            cout << " [HAMBRIENTO]";
-        } else {
-            cout << " [ALIMENTADO]";
-        }
-        cout << endl;
-    }
-    
-    void alimentar() {
-        horasDesdeUltimaComida = 0;
-        tieneHambre = false;
-        cout << nombre << " ha sido alimentado.\n";
-    }
-    
-    void pasarTiempo(int horas) {
-        horasDesdeUltimaComida += horas;
-        if (horasDesdeUltimaComida >= 6) {
-            tieneHambre = true;
-        }
-    }
-    
-    float calcularRacionComida() {
-        return peso * 0.05; // 5% del peso corporal
-    }
-    
-    string getNombre() { return nombre; }
-    bool getTieneHambre() { return tieneHambre; }
-    int getHorasSinComer() { return horasDesdeUltimaComida; }
-};
+}
 
-class Cuidador {
-private:
-    string nombre;
-    int experiencia;
-    int animalesAlimentados;
-    float horasTrabajadasHoy;
+float Animal::calcularRacionComida() {
+    return peso * 0.05;
+}
 
-public:
-    Cuidador(string nom, int exp) {
-        nombre = nom;
-        experiencia = exp;
-        animalesAlimentados = 0;
-        horasTrabajadasHoy = 0;
-    }
-    
-    void mostrarInfo() {
-        cout << "Cuidador: " << nombre << " - Experiencia: " << experiencia << " años\n"
-             << "Animales alimentados hoy: " << animalesAlimentados 
-             << " - Horas trabajadas: " << horasTrabajadasHoy << endl;
-    }
-    
-    void alimentarAnimal(Animal &animal) {
-        cout << nombre << " está alimentando a " << animal.getNombre() << endl;
-        animal.alimentar();
-        animalesAlimentados++;
-        horasTrabajadasHoy += 0.5; 
-    }
-    
-    void resetearDia() {
-        animalesAlimentados = 0;
-        horasTrabajadasHoy = 0;
-    }
-    
-    bool puedeTrabajar() {
-        return horasTrabajadasHoy < 8.0;
-    }
-    
-    string getNombre() { return nombre; }
-    int getAnimalesAlimentados() { return animalesAlimentados; }
-};
+string Animal::getNombre() { return nombre; }
+bool Animal::getTieneHambre() { return tieneHambre; }
+int Animal::getHorasSinComer() { return horasDesdeUltimaComida; }
 
-// zona del zoologico
-class Zona {
-private:
-    string nombre;
-    string tipoHabitat;
-    int capacidadMaxima;
-    int animalesActuales;
-    float temperaturaActual;
-    vector<Animal*> animales;
+Cuidador::Cuidador(string nom, int exp) {
+    nombre = nom;
+    experiencia = exp;
+    animalesAlimentados = 0;
+    horasTrabajadasHoy = 0;
+}
 
-public:
-    Zona(string nom, string habitat, int cap, float temp) {
-        nombre = nom;
-        tipoHabitat = habitat;
-        capacidadMaxima = cap;
-        animalesActuales = 0;
-        temperaturaActual = temp;
-    }
-    
-    void mostrarInfo() {
-        cout << "Zona: " << nombre << " (" << tipoHabitat << ")\n"
-             << "Ocupación: " << animalesActuales << "/" << capacidadMaxima
-             << " - Temperatura: " << temperaturaActual << "°C" << endl;
-        cout << "--- Animales en esta zona ---";
-        for (Animal* a : animales) {
-            a->mostrarInfo();
-        }
-        if ( animales.empty() ) {
-            cout << "No hay animales en esta zona";
-        }
+void Cuidador::mostrarInfo() {
+    cout << "Cuidador: " << nombre << " - Experiencia: " << experiencia << " años\n"
+         << "Animales alimentados hoy: " << animalesAlimentados 
+         << " - Horas trabajadas: " << horasTrabajadasHoy << endl;
+}
 
-    }
-    
-    bool puedeAgregarAnimal() {
-        return animalesActuales < capacidadMaxima;
-    }
-    
-    void agregarAnimal(Animal *animal) {
-        if (puedeAgregarAnimal()) {
-            animalesActuales++;
-            animales.push_back(animal);
-        } else {
-            cout << "No se puede agregar más animales a " << nombre << endl;
-        }
-    }
-    
-    void ajustarTemperatura(float nuevaTemp) {
-        temperaturaActual = nuevaTemp;
-        cout << "Temperatura de " << nombre << " ajustada a " << nuevaTemp << "°C\n";
-    }
-    
-    string getNombre() { return nombre; }
-    int getAnimalesActuales() { return animalesActuales; }
+void Cuidador::alimentarAnimal(Animal &animal) {
+    cout << nombre << " está alimentando a " << animal.getNombre() << endl;
+    animal.alimentar();
+    animalesAlimentados++;
+    horasTrabajadasHoy += 0.5; 
+}
 
-};
+void Cuidador::resetearDia() {
+    animalesAlimentados = 0;
+    horasTrabajadasHoy = 0;
+}
 
-// funciones externas para gestionar la alimentacion
+bool Cuidador::puedeTrabajar() {
+    return horasTrabajadasHoy < 8.0;
+}
+
+string Cuidador::getNombre() { return nombre; }
+int Cuidador::getAnimalesAlimentados() { return animalesAlimentados; }
+
+Zona::Zona(string nom, string habitat, int cap, float temp) {
+    nombre = nom;
+    tipoHabitat = habitat;
+    capacidadMaxima = cap;
+    animalesActuales = 0;
+    temperaturaActual = temp;
+}
+
+void Zona::mostrarInfo() {
+    cout << "Zona: " << nombre << " (" << tipoHabitat << ")\n"
+         << "Ocupación: " << animalesActuales << "/" << capacidadMaxima
+         << " - Temperatura: " << temperaturaActual << "°C" << endl;
+    cout << "--- Animales en esta zona ---";
+    for (Animal* a : animales) {
+        a->mostrarInfo();
+    }
+    if ( animales.empty() ) {
+        cout << "No hay animales en esta zona";
+    }
+}
+
+bool Zona::puedeAgregarAnimal() {
+    return animalesActuales < capacidadMaxima;
+}
+
+void Zona::agregarAnimal(Animal *animal) {
+    if (puedeAgregarAnimal()) {
+        animalesActuales++;
+        animales.push_back(animal);
+    } else {
+        cout << "No se puede agregar más animales a " << nombre << endl;
+    }
+}
+
+void Zona::ajustarTemperatura(float nuevaTemp) {
+    temperaturaActual = nuevaTemp;
+    cout << "Temperatura de " << nombre << " ajustada a " << nuevaTemp << "°C\n";
+}
+
+string Zona::getNombre() { return nombre; }
+int Zona::getAnimalesActuales() { return animalesActuales; }
 
 void revisarEstadoNutricional(Animal &animal) {
     cout << "\n=== REVISION NUTRICIONAL (POR VALOR) ===\n";
@@ -165,7 +127,6 @@ void revisarEstadoNutricional(Animal &animal) {
     }
 }
 
-// funcion por referencia
 void procesarAlimentacionDiaria(Animal &animal, Cuidador &cuidador) {
     cout << "\n=== ALIMENTACION DIARIA (POR REFERENCIA) ===\n";
     cout << "Iniciando proceso de alimentación...\n";
@@ -186,7 +147,6 @@ void procesarAlimentacionDiaria(Animal &animal, Cuidador &cuidador) {
     }
 }
 
-// funcion por puntero
 void controlarAmbienteZona(Zona* zona) {
     cout << "\n=== CONTROL AMBIENTAL (POR PUNTERO) ===\n";
     cout << "Controlando condiciones ambientales...\n";
@@ -194,7 +154,6 @@ void controlarAmbienteZona(Zona* zona) {
     cout << "Estado actual de la zona:\n";
     zona->mostrarInfo();
     
-    // Simular ajuste de temperatura segun ocupación
     float nuevaTemp = 22.0 + (zona->getAnimalesActuales() * 2.0);
     zona->ajustarTemperatura(nuevaTemp);
     

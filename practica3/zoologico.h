@@ -69,6 +69,12 @@ public:
     int getAnimalesAlimentados();
 };
 
+// requerimiento de usar lista enlazada
+struct NodoAnimal {
+    Animal* animal;
+    NodoAnimal* siguiente;  
+};
+
 class Zona {
 private:
     string nombre;
@@ -76,7 +82,8 @@ private:
     int capacidadMaxima;
     int animalesActuales;
     float temperaturaActual;
-    vector<Animal*> animales;
+    //vector<Animal*> animales;
+    NodoAnimal* cabeza; 
 
 public:
     Zona(string nom, string habitat, int cap, float temp);
@@ -84,6 +91,7 @@ public:
     bool puedeAgregarAnimal();
     void agregarAnimal(Animal *animal);
     void ajustarTemperatura(float nuevaTemp);
+    void removerAnimal(Animal *animal); 
     string getNombre();
     int getAnimalesActuales();
 };

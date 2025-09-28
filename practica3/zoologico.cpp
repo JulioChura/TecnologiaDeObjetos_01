@@ -69,11 +69,13 @@ float Omnivoro::calcularRacionComida() {
 }
 void Omnivoro::alimentarse() {
     float racionVerdura = gramosVerduraPorKg * peso;
-    float racionCarne  = gramosCarnePorKg  * peso;
+    float racionCarne = gramosCarnePorKg * peso;
+    float total = calcularRacionComida();
     cout << nombre << " come " << racionVerdura << " g de vegetales y "
-         << racionCarne << " g de carne.\n";
-    alimentar(); 
+         << racionCarne << " g de carne (total " << total << " g)\n";
+    alimentar();
 }
+
 
 Cuidador::Cuidador(string nom, int exp) {
     nombre = nom;
@@ -113,6 +115,7 @@ Zona::Zona(string nom, string habitat, int cap, float temp) {
     capacidadMaxima = cap;
     animalesActuales = 0;
     temperaturaActual = temp;
+    cabeza = nullptr; 
 }
 
 void Zona::mostrarInfo() {
@@ -133,11 +136,11 @@ bool Zona::puedeAgregarAnimal() {
 }
 
 void Zona::agregarAnimal(Animal *animal) {
-    if (puedeAgregarAnimal()) {
-        animalesActuales++;
-        animales.push_back(animal);
-    } else {
+    if (!puedeAgregarAnimal()) {
         cout << "No se puede agregar más animales a " << nombre << endl;
+    } else {
+        NodoAnimal* nuevo = new NodoAnimal();
+        // implementar
     }
 }
 

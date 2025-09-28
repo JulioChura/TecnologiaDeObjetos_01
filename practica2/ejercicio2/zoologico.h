@@ -4,23 +4,53 @@
 using namespace std;
 
 class Animal {
-private:
+protected:
     string nombre;
     string especie;
     float peso;
     int horasDesdeUltimaComida;
     bool tieneHambre;
+    string dieta; // a futuro volverlo un vector que guarde varios tipos de alimentos
 
 public:
-    Animal(string nom, string esp, float p);
+    Animal(string nom, string esp, float p, string dieta);
+    virtual void mostrarInfo();
     void mostrarInfo();
-    void alimentar();
     void pasarTiempo(int horas);
-    float calcularRacionComida();
     string getNombre();
     bool getTieneHambre();
     int getHorasSinComer();
+    void alimentar();
+    virtual void alimentarse() = 0;
+    virtual float calcularRacionComida() = 0;
+
+    string getDieta(); 
 };
+
+class Herbivoro : public Animal {
+public:
+    float gramosVerduraPorKg;
+    Herbivoro(string nom, string esp, float p, string die, float gramosPorKg);
+    void alimentarse() override;
+    float calcularRacionComida() override;
+};
+
+class Carnivoro : public Animal {
+public:
+    float gramosCarnePorKg;
+    Carnivoro(string nom, string esp, float p, string die, float gramosPorKg);
+    void alimentarse() override;
+    float calcularRacionComida() override;
+};
+
+class Omnivoro : public Animal {
+public:
+    float gramosVerduraPorKg;
+    float gramosCarnePorKg;
+    Omnivoro(string nom, string esp, float p, string die, float verdura, float carne);    void alimentarse() override;
+    void alimentarse() override;
+    float calcularRacionComida() override;
+};  
 
 class Cuidador {
 private:

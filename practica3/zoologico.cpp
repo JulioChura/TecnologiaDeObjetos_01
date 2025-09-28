@@ -41,6 +41,7 @@ string Animal::getNombre() { return nombre; }
 bool Animal::getTieneHambre() { return tieneHambre; }
 int Animal::getHorasSinComer() { return horasDesdeUltimaComida; }
 
+
 Herbivoro::Herbivoro(string nom, string esp, float p, string die, float gramosPorKg)
     : Animal(nom, esp, p, die), gramosVerduraPorKg(gramosPorKg) {}
 
@@ -53,6 +54,16 @@ float Herbivoro::calcularRacionComida() {
     return gramosVerduraPorKg * peso;
 }
 
+Carnivoro::Carnivoro(string nom, string esp, float p, string die, float gramosPorKg)
+    : Animal(nom, esp, p, die), gramosCarnePorKg(gramosPorKg) {}
+float Carnivoro::calcularRacionComida() {
+    return gramosCarnePorKg * peso;
+}
+void Carnivoro::alimentarse() {
+    float racion = calcularRacionComida();
+    cout << nombre << " come " << racion << " g de carne.\n";
+    alimentar(); 
+}
 
 
 Cuidador::Cuidador(string nom, int exp) {

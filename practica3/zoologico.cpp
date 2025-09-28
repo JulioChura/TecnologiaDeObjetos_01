@@ -33,10 +33,6 @@ void Animal::pasarTiempo(int horas) {
     }
 }
 
-float Animal::calcularRacionComida() {
-    return peso * 0.05;
-}
-
 string Animal::getNombre() { return nombre; }
 bool Animal::getTieneHambre() { return tieneHambre; }
 int Animal::getHorasSinComer() { return horasDesdeUltimaComida; }
@@ -105,7 +101,7 @@ void Cuidador::resetearDia() {
 }
 
 bool Cuidador::puedeTrabajar() {
-    return horasTrabajadasHoy < 8.0;
+    return horasTrabajadasHoy < MAX_HORAS_LABORALES;
 }
 
 string Cuidador::getNombre() { return nombre; }

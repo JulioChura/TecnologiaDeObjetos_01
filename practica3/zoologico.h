@@ -57,6 +57,7 @@ private:
     int experiencia;
     int animalesAlimentados;
     float horasTrabajadasHoy;
+    const int MAX_HORAS_LABORALES = 8;
 
 public:
     Cuidador(string nom, int exp);

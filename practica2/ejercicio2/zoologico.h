@@ -4,7 +4,7 @@
 using namespace std;
 
 class Animal {
-private:
+protected:
     string nombre;
     string especie;
     float peso;
@@ -13,13 +13,15 @@ private:
 
 public:
     Animal(string nom, string esp, float p);
+    virtual void mostrarInfo();
     void mostrarInfo();
-    void alimentar();
     void pasarTiempo(int horas);
     float calcularRacionComida();
     string getNombre();
     bool getTieneHambre();
     int getHorasSinComer();
+    virtual void alimentar() = 0;
+
 };
 
 class Cuidador {

@@ -10,41 +10,47 @@ protected:
     float peso;
     int horasDesdeUltimaComida;
     bool tieneHambre;
+    string dieta; // a futuro volverlo un vector que guarde varios tipos de alimentos
 
 public:
-    Animal(string nom, string esp, float p);
+    Animal(string nom, string esp, float p, string dieta);
     virtual void mostrarInfo();
     void mostrarInfo();
     void pasarTiempo(int horas);
-    float calcularRacionComida();
     string getNombre();
     bool getTieneHambre();
     int getHorasSinComer();
     void alimentar();
     virtual void alimentarse() = 0;
+    virtual float calcularRacionComida() = 0;
+
+    string getDieta(); 
 };
 
-// mas adelante se pueden crear clases para los distintos tipos de alimentos que los animales consumen
 class Herbivoro : public Animal {
 public:
-    string plantas;
-    Herbivoro(string nom, string esp, float p, string pla);
+    float gramosVerduraPorKg;
+    Herbivoro(string nom, string esp, float p, string die, float gramosPorKg);
     void alimentarse() override;
+    float calcularRacionComida() override;
 };
 
 class Carnivoro : public Animal {
 public:
-    string carne;
-    Carnivoro(string nom, float p, string car);
+    float gramosCarnePorKg;
+    Carnivoro(string nom, string esp, float p, string die, float gramosPorKg);
     void alimentarse() override;
+    float calcularRacionComida() override;
 };
 
 class Omnivoro : public Animal {
 public:
-    string comidaMixta; 
-    Omnivoro(string nom, float p, string comidaMixta);
+    float gramosVerduraPorKg;
+    float gramosCarnePorKg;
+    Omnivoro(string nom, string esp, float p, string die, float verdura, float carne);    void alimentarse() override;
     void alimentarse() override;
-};
+    float calcularRacionComida() override;
+};  
 
 class Cuidador {
 private:

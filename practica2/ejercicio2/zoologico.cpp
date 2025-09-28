@@ -1,11 +1,12 @@
 #include "zoologico.h"
 
-Animal::Animal(string nom, string esp, float p) {
+Animal::Animal(string nom, string esp, float p, string die) {
     nombre = nom;
     especie = esp;
     peso = p;
     horasDesdeUltimaComida = 8;
     tieneHambre = true;
+    dieta = die;
 }
 
 void Animal::mostrarInfo() {
@@ -36,7 +37,17 @@ float Animal::calcularRacionComida() {
     return peso * 0.05;
 }
 
-Herbivoro::Herbivoro(string nom, string esp, float p, string pla) : Animal(nom, esp, p), plantas(pla) {}
+Herbivoro::Herbivoro(string nom, string esp, float p, string die, float gramosPorKg)
+    : Animal(nom, esp, p, die), gramosVerduraPorKg(gramosPorKg) {}
+
+void Herbivoro::alimentarse() {
+    cout << nombre << " come " << gramosVerduraPorKg * peso << " g de vegetales.\n";
+    alimentar();
+}
+
+float Herbivoro::calcularRacionComida() {
+    return gramosVerduraPorKg * peso;
+}
 
 
 string Animal::getNombre() { return nombre; }

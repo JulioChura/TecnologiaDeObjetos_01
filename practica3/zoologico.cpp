@@ -138,10 +138,26 @@ bool Zona::puedeAgregarAnimal() {
 void Zona::agregarAnimal(Animal *animal) {
     if (!puedeAgregarAnimal()) {
         cout << "No se puede agregar más animales a " << nombre << endl;
+        return;
     } else {
         NodoAnimal* nuevo = new NodoAnimal();
-        // implementar
+        if ( cabeza == nullptr ) {
+            cabeza = nuevo;
+            cabeza->animal = animal;
+            cabeza->siguiente = nullptr;
+        } else {
+            NodoAnimal* actual = cabeza;
+            while(actual->siguiente != nullptr) {
+                actual = actual->siguiente;
+            }
+            nuevo->animal = animal;
+            nuevo->siguiente = nullptr;
+            actual->siguiente = nuevo;
+
+            cout << animal->getNombre() << " agregado a " << nombre << endl;
+        }
     }
+    animalesActuales++;
 }
 
 void Zona::ajustarTemperatura(float nuevaTemp) {

@@ -91,7 +91,7 @@ public:
     bool puedeAgregarAnimal();
     void agregarAnimal(Animal *animal);
     void ajustarTemperatura(float nuevaTemp);
-    void removerAnimal(Animal *animal); 
+    Animal* removerAnimal(Animal *animal); 
     string getNombre();
     int getAnimalesActuales();
 };

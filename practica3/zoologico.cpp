@@ -160,6 +160,50 @@ void Zona::agregarAnimal(Animal *animal) {
     animalesActuales++;
 }
 
+// remover por nombre
+Animal* Zona::removerAnimal(Animal *animal) {
+    if ( cabeza == nullptr ) {
+        cout << "No hay animales en " << nombre << " para remover.\n";
+        return;
+    }
+    NodoAnimal* retornar = nullptr;
+    NodoAnimal* aux = nullptr;
+    NodoAnimal* actual = cabeza;
+    while (actual != nullptr ) {
+        if ( actual->animal->getNombre() == animal->getNombre() ) {
+            // a-b-c-d
+            // a
+            /*
+            si cabeza es igual a actual
+                auxiliar = cabeza
+                cabeza.animal = nullptr
+                return auxiliar
+
+            nodoTemporal = actual
+            mientras nodoTemporal.siguiente no es nulo y el nodo siguiente no es igual
+                nodoTemporal = nodoTemporal.siguiente
+
+            si nodoTemporal.siguiente es nulo
+                no se encontro
+                return
+            
+            auxiliar = nodoTemporal.siguiente // recuperé el nodo
+            nodoTemporal.siguiente = auxuiliar.siguiente // salteo el nodo
+            
+            retorno auxiliar 
+            
+            */
+
+            aux = actual;
+            retornar = actual;
+
+            animalesActuales--;
+        }
+        actual = actual->siguiente;
+    }
+    
+}
+
 void Zona::ajustarTemperatura(float nuevaTemp) {
     temperaturaActual = nuevaTemp;
     cout << "Temperatura de " << nombre << " ajustada a " << nuevaTemp << "°C\n";

@@ -20,8 +20,26 @@ public:
     string getNombre();
     bool getTieneHambre();
     int getHorasSinComer();
-    virtual void alimentar() = 0;
+    virtual void alimentarse() = 0;
 
+};
+
+class Herbivoro : public Animal {
+public:
+    Herbivoro(string nom, float p);
+    void alimentarse() override;
+};
+
+class Carnivoro : public Animal {
+public:
+    Carnivoro(string nom, float p);
+    void alimentarse() override;
+};
+
+class Omnivoro : public Animal {
+public:
+    Omnivoro(string nom, float p);
+    void alimentarse() override;
 };
 
 class Cuidador {

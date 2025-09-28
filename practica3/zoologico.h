@@ -46,7 +46,7 @@ class Omnivoro : public Animal {
 public:
     float gramosVerduraPorKg;
     float gramosCarnePorKg;
-    Omnivoro(string nom, string esp, float p, string die, float verdura, float carne);    void alimentarse() override;
+    Omnivoro(string nom, string esp, float p, string die, float verdura, float carne);
     void alimentarse() override;
     float calcularRacionComida() override;
 };  

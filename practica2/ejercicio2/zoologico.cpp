@@ -36,6 +36,9 @@ float Animal::calcularRacionComida() {
     return peso * 0.05;
 }
 
+Herbivoro::Herbivoro(string nom, string esp, float p, string pla) : Animal(nom, esp, p), plantas(pla) {}
+
+
 string Animal::getNombre() { return nombre; }
 bool Animal::getTieneHambre() { return tieneHambre; }
 int Animal::getHorasSinComer() { return horasDesdeUltimaComida; }

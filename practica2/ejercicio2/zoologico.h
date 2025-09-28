@@ -20,25 +20,29 @@ public:
     string getNombre();
     bool getTieneHambre();
     int getHorasSinComer();
+    void alimentar();
     virtual void alimentarse() = 0;
-
 };
 
+// mas adelante se pueden crear clases para los distintos tipos de alimentos que los animales consumen
 class Herbivoro : public Animal {
 public:
-    Herbivoro(string nom, float p);
+    string plantas;
+    Herbivoro(string nom, string esp, float p, string pla);
     void alimentarse() override;
 };
 
 class Carnivoro : public Animal {
 public:
-    Carnivoro(string nom, float p);
+    string carne;
+    Carnivoro(string nom, float p, string car);
     void alimentarse() override;
 };
 
 class Omnivoro : public Animal {
 public:
-    Omnivoro(string nom, float p);
+    string comidaMixta; 
+    Omnivoro(string nom, float p, string comidaMixta);
     void alimentarse() override;
 };
 

@@ -66,6 +66,19 @@ void Carnivoro::alimentarse() {
 }
 
 
+Omnivoro::Omnivoro(string nom, string esp, float p, string die, float verdura, float carne)
+    : Animal(nom, esp, p, die), gramosVerduraPorKg(verdura), gramosCarnePorKg(carne) {}
+float Omnivoro::calcularRacionComida() {
+    return (gramosVerduraPorKg + gramosCarnePorKg) * peso;
+}
+void Omnivoro::alimentarse() {
+    float racionVerdura = gramosVerduraPorKg * peso;
+    float racionCarne  = gramosCarnePorKg  * peso;
+    cout << nombre << " come " << racionVerdura << " g de vegetales y "
+         << racionCarne << " g de carne.\n";
+    alimentar(); 
+}
+
 Cuidador::Cuidador(string nom, int exp) {
     nombre = nom;
     experiencia = exp;

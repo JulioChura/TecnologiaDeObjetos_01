@@ -12,6 +12,8 @@ protected:
     int horasDesdeUltimaComida;
     bool tieneHambre;
     string dieta; // a futuro volverlo un vector que guarde varios tipos de alimentos
+    
+    static int contadorId; //variable de clase que autoincrementa ids
 
 public:
     Animal(string nom, string esp, float p, string dieta);

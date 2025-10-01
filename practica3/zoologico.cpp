@@ -1,6 +1,9 @@
 #include "zoologico.h"
 
+int Animal::contadorId = 1;
+
 Animal::Animal(string nom, string esp, float p, string die) {
+    id = contadorId++; //Asigna el id
     nombre = nom;
     especie = esp;
     peso = p;
@@ -32,6 +35,9 @@ void Animal::pasarTiempo(int horas) {
         tieneHambre = true;
     }
 }
+
+//Metodo para obtener el id de animal
+int Animal::getId() const { return id; }
 
 string Animal::getNombre() { return nombre; }
 bool Animal::getTieneHambre() { return tieneHambre; }
@@ -123,12 +129,25 @@ void Zona::mostrarInfo() {
          << "Ocupación: " << animalesActuales << "/" << capacidadMaxima
          << " - Temperatura: " << temperaturaActual << "°C" << endl;
     cout << "--- Animales en esta zona ---";
-    for (Animal* a : animales) {
+    
+    /*for (Animal* a : animales) {
         a->mostrarInfo();
     }
     if ( animales.empty() ) {
         cout << "No hay animales en esta zona";
+    }*/
+    
+    if (!cabeza) {
+        cout << "No hay animales en esta zona\n";
+        return;
     }
+
+    NodoAnimal* actual = cabeza;
+    while (actual) {
+        actual->animal->mostrarInfo();
+        actual = actual->siguiente;
+    }
+
 }
 
 bool Zona::puedeAgregarAnimal() {

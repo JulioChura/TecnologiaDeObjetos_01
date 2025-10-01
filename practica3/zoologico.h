@@ -1,34 +1,33 @@
+#pragma once
 #include <iostream>
-#include <vector>
 #include <string>
 using namespace std;
 
 class Animal {
 protected:
-    int id; //Identificador unico de cada animal
+    int id;
     string nombre;
     string especie;
     float peso;
     int horasDesdeUltimaComida;
     bool tieneHambre;
-    string dieta; // a futuro volverlo un vector que guarde varios tipos de alimentos
-    
-    static int contadorId; //variable de clase que autoincrementa ids
+    string dieta;
+
+    static int contadorId;
 
 public:
     Animal(string nom, string esp, float p, string dieta);
-    void mostrarInfo();
+    virtual ~Animal(); // importante para borrar derivados vía Animal*
+    void mostrarInfo() const;
     void pasarTiempo(int horas);
-    string getNombre();
-    bool getTieneHambre();
-    int getHorasSinComer();
-    //obtener identificador
+    string getNombre() const;
+    bool getTieneHambre() const;
+    int getHorasSinComer() const;
     int getId() const;
     void alimentar();
     virtual void alimentarse() = 0;
     virtual float calcularRacionComida() = 0;
-
-    string getDieta(); 
+    string getDieta() const;
 };
 
 class Herbivoro : public Animal {
@@ -54,7 +53,7 @@ public:
     Omnivoro(string nom, string esp, float p, string die, float verdura, float carne);
     void alimentarse() override;
     float calcularRacionComida() override;
-};  
+};
 
 class Cuidador {
 private:
@@ -74,10 +73,9 @@ public:
     int getAnimalesAlimentados();
 };
 
-// requerimiento de usar lista enlazada
 struct NodoAnimal {
     Animal* animal;
-    NodoAnimal* siguiente;  
+    NodoAnimal* siguiente;
 };
 
 class Zona {
@@ -87,20 +85,21 @@ private:
     int capacidadMaxima;
     int animalesActuales;
     float temperaturaActual;
-    //vector<Animal*> animales;
-    NodoAnimal* cabeza; 
+    NodoAnimal* cabeza;
 
 public:
     Zona(string nom, string habitat, int cap, float temp);
+    ~Zona(); // libera nodos de la lista (no libera los Animal* porque el main los gestiona)
     void mostrarInfo();
     bool puedeAgregarAnimal();
     void agregarAnimal(Animal *animal);
     void ajustarTemperatura(float nuevaTemp);
-    Animal* removerAnimal(Animal *animal); 
+    Animal* removerAnimal(int id); // ahora remueve por id
     string getNombre();
     int getAnimalesActuales();
 };
 
+// funciones globales
 void revisarEstadoNutricional(Animal &animal);
 void procesarAlimentacionDiaria(Animal &animal, Cuidador &cuidador);
 void controlarAmbienteZona(Zona* zona);

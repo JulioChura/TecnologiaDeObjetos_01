@@ -5,6 +5,7 @@ using namespace std;
 
 class Animal {
 protected:
+    int id; //Identificador unico de cada animal
     string nombre;
     string especie;
     float peso;
@@ -19,6 +20,8 @@ public:
     string getNombre();
     bool getTieneHambre();
     int getHorasSinComer();
+    //obtener identificador
+    int getId() const;
     void alimentar();
     virtual void alimentarse() = 0;
     virtual float calcularRacionComida() = 0;

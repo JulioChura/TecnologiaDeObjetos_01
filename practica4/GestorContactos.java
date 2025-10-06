@@ -85,13 +85,11 @@ class GestorContacto {
             if (c == null)
                 throw new Exception("Contacto no encontrado");
 
-            contactos.remove(c);
             validarTelefono(nuevoTelefono);
             validarEmail(nuevoEmail);
 
             c.setTelefono(nuevoTelefono);
             c.setEmail(nuevoEmail);
-            contactos.add(c);
 
             System.out.println("Contacto modificado: " + nombre);
         } catch (Exception e) {

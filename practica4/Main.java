@@ -1,29 +1,35 @@
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         GestorContacto gestor = new GestorContacto();
-        Scanner sc = new Scanner(System.in);
 
-        try {
-            gestor.agregarContacto("Juan Perez", "1234567890i", "juanex@ample.com");
-            gestor.agregarContacto("Maria Lopez", "912345678", "maria@example.com");
+        System.out.println("PRUEBA DE EXCEPCIONES CON DOS CONTACTOS\n");
 
-            System.out.println("Contactos después de agregar:");
-            gestor.mostrarContactos();
+        // 1agregar dos contactos válidos
+        gestor.agregarContacto("Juan Perez", "912345678", "juan@example.com");
+        gestor.agregarContacto("Maria Lopez", "923456789", "maria@example.com");
 
-            gestor.modificarContacto("Juan Perez", "999888777", "juanp@correo.com");
-            System.out.println("\nContactos después de modificar Juan Perez:");
-            gestor.mostrarContactos();
+        // intentar agregar contactos con datos inválidos
+        gestor.agregarContacto("", "912345678", "test1@example.com");           // Nombre vacío
+        gestor.agregarContacto("Ana88", "912305678", "test2@example.com");     // Nombre con números
+        gestor.agregarContacto("Luis", "", "test3@example.com");                 // Teléfono vacío
+        gestor.agregarContacto("Pedro", "12345", "test4@example.com");           // Teléfono corto
+        gestor.agregarContacto("Marta", "999999999", "test5@example.com");       // Teléfono todos iguales
+        gestor.agregarContacto("Sofia", "012345678", "test6@example.com");       // Teléfono empieza con 0
+        gestor.agregarContacto("Carlos", "934567890", "correo-invalido");       // Email inválido
 
-            gestor.eliminarContacto("Maria Lopez");
-            System.out.println("\nContactos después de eliminar Maria Lopez:");
-            gestor.mostrarContactos();
+        // ntentar agregar duplicados
+        gestor.agregarContacto("Juan Perez", "987654321", "nuevo@example.com"); // Nombre duplicado
+        gestor.agregarContacto("Otro", "912345678", "otro@example.com");        // Teléfono duplicado
+        gestor.agregarContacto("Otro2", "934567890", "juan@example.com");       // Email duplicado
 
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        // modificaciones inválidas
+        gestor.modificarContacto("Inexistente", "987654321", "nuevo@mail.com"); // Contacto no existe
+        gestor.modificarContacto("Juan Perez", "000000000", "nuevo@mail.com");  // Teléfono inválido
+        gestor.modificarContacto("Juan Perez", "987654321", "maria@example.com");// Email duplicado
 
-        sc.close();
+        // probar eliminacion de contacto inexistente
+        gestor.eliminarContacto("NoExiste");
+        System.out.println("\nContactos existentes:");
+        gestor.mostrarContactos();
     }
 }

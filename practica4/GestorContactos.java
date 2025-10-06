@@ -15,6 +15,10 @@ class GestorContacto {
             if (Character.isDigit(c))
                 throw new Exception("Nombre inválido");
         }
+        for (Contacto c : contactos) {
+            if (c.getNombre().equalsIgnoreCase(nombre))
+                throw new Exception("Nombre duplicado: ya existe en la agenda");
+        }
     }
 
     private void validarTelefono(String telefono) throws Exception {

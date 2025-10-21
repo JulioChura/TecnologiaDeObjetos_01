@@ -25,16 +25,20 @@ public:
     int getHorasSinComer() const;
     int getId() const;
     void alimentar();
-    virtual void alimentarse() = 0;
+    
+    // uso de covarianza
+    virtual Animal* alimentarse() = 0;
     virtual float calcularRacionComida() = 0;
     string getDieta() const;
+
+    friend ostream& operator<<(ostream& os, const Animal& a); // friend
 };
 
 class Herbivoro : public Animal {
 public:
     float gramosVerduraPorKg;
     Herbivoro(string nom, string esp, float p, string die, float gramosPorKg);
-    void alimentarse() override;
+    Animal* alimentarse() override;
     float calcularRacionComida() override;
 };
 
@@ -42,7 +46,7 @@ class Carnivoro : public Animal {
 public:
     float gramosCarnePorKg;
     Carnivoro(string nom, string esp, float p, string die, float gramosPorKg);
-    void alimentarse() override;
+    Animal* alimentarse() override;
     float calcularRacionComida() override;
 };
 
@@ -51,7 +55,7 @@ public:
     float gramosVerduraPorKg;
     float gramosCarnePorKg;
     Omnivoro(string nom, string esp, float p, string die, float verdura, float carne);
-    void alimentarse() override;
+    Animal* alimentarse() override;
     float calcularRacionComida() override;
 };
 

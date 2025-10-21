@@ -17,15 +17,14 @@ int main() {
     Zona* bosqueTropical = new Zona("Bosque Tropical", "Selva", 12, 28.0);
     Zona* montaña = new Zona("Montañas Asiáticas", "Montaña", 6, 18.0);
 
-    sabana->agregarAnimal(leon);
-    sabana->agregarAnimal(elefante);
-    montaña->agregarAnimal(panda);
+    *sabana + leon + elefante;
+    *montaña + panda;
 
     cout << "\n=== ESTADO INICIAL DEL ZOOLOGICO ===\n";
     cout << "\n--- ANIMALES ---\n";
-    leon->mostrarInfo();
-    elefante->mostrarInfo();
-    panda->mostrarInfo();
+    cout << *leon << endl;        
+    cout << *elefante << endl;   
+    cout << *panda << endl;
 
     cout << "\n--- CUIDADORES ---\n";
     maria->mostrarInfo();
@@ -54,15 +53,8 @@ int main() {
     // Intentar alimentar animales que ya no tienen hambre
     procesarAlimentacionDiaria(*leon, *carlos);
 
-    // 3. Función por PUNTERO - Control ambiental
     controlarAmbienteZona(sabana);
     controlarAmbienteZona(montaña);
-
-    // borrando animal de una zona (remover panda de montaña)
-    Animal* eliminado = montaña->removerAnimal(panda->getId());
-    if (eliminado) {
-        cout << "Eliminado: " << eliminado->getNombre() << endl;
-    }
 
     // Simular más paso de tiempo
     cout << "\n=== SIMULACION: PASO DE 3 HORAS MAS ===\n";
@@ -71,9 +63,10 @@ int main() {
 
     cout << "\n=== ESTADO FINAL DEL SISTEMA ===\n";
     cout << "\n--- ANIMALES ---\n";
-    leon->mostrarInfo();
-    elefante->mostrarInfo();
-
+    cout << *elefante << endl; 
+    cout << *leon << endl; 
+    cout << *panda << endl;
+    
     cout << "\n--- CUIDADORES ---\n";
     maria->mostrarInfo();
     carlos->mostrarInfo();
@@ -82,7 +75,10 @@ int main() {
     sabana->mostrarInfo();
     bosqueTropical->mostrarInfo();
     montaña->mostrarInfo();
-
+    
+    Animal* eliminado = *montaña - panda->getId();
+    if(eliminado) cout << "Eliminado: " << eliminado->getNombre() << endl;
+    
     //eliminar objetos (zonas liberan nodos pero no los Animal*)
     delete leon;
     delete elefante;

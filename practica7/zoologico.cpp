@@ -40,6 +40,15 @@ void Animal::pasarTiempo(int horas) {
     }
 }
 
+ostream& operator<<(ostream& os, const Animal& a) {
+    os << a.nombre << " (" << a.especie << ") - Peso: " << a.peso << "kg - ";
+    os << "Horas sin comer: " << a.horasDesdeUltimaComida;
+    os << (a.tieneHambre ? " [HAMBRIENTO]" : " [ALIMENTADO]");
+    os << " - ID: " << a.id;
+    return os;
+}
+
+
 int Animal::getId() const { return id; }
 string Animal::getNombre() const { return nombre; }
 bool Animal::getTieneHambre() const { return tieneHambre; }
@@ -50,11 +59,13 @@ string Animal::getDieta() const { return dieta; }
 Herbivoro::Herbivoro(string nom, string esp, float p, string die, float gramosPorKg)
     : Animal(nom, esp, p, die), gramosVerduraPorKg(gramosPorKg) {}
 
-void Herbivoro::alimentarse() {
+Animal* Herbivoro::alimentarse() {
     float racion = calcularRacionComida();
     cout << nombre << " come " << racion << " g de vegetales.\n";
     alimentar();
+    return this;    
 }
+
 float Herbivoro::calcularRacionComida() {
     return gramosVerduraPorKg * peso;
 }
@@ -66,10 +77,11 @@ Carnivoro::Carnivoro(string nom, string esp, float p, string die, float gramosPo
 float Carnivoro::calcularRacionComida() {
     return gramosCarnePorKg * peso;
 }
-void Carnivoro::alimentarse() {
+Animal* Carnivoro::alimentarse() {
     float racion = calcularRacionComida();
     cout << nombre << " come " << racion << " g de carne.\n";
     alimentar();
+    return this;
 }
 
 /* ---------- Omnivoro ---------- */
@@ -79,13 +91,14 @@ Omnivoro::Omnivoro(string nom, string esp, float p, string die, float verdura, f
 float Omnivoro::calcularRacionComida() {
     return (gramosVerduraPorKg + gramosCarnePorKg) * peso;
 }
-void Omnivoro::alimentarse() {
+Animal* Omnivoro::alimentarse() {
     float racionVerdura = gramosVerduraPorKg * peso;
     float racionCarne = gramosCarnePorKg * peso;
     float total = calcularRacionComida();
     cout << nombre << " come " << racionVerdura << " g de vegetales y "
          << racionCarne << " g de carne (total " << total << " g)\n";
     alimentar();
+    return this;
 }
 
 /* ---------- Cuidador ---------- */
@@ -142,22 +155,13 @@ Zona::~Zona() {
     cabeza = nullptr;
 }
 
-void Zona::mostrarInfo() {
-    cout << "Zona: " << nombre << " (" << tipoHabitat << ")\n"
-         << "Ocupación: " << animalesActuales << "/" << capacidadMaxima
-         << " - Temperatura: " << temperaturaActual << "°C" << endl;
-    cout << "--- Animales en esta zona ---\n";
+Zona& Zona::operator+(Animal* animal) {
+    agregarAnimal(animal);
+    return *this;
+}
 
-    if (!cabeza) {
-        cout << "No hay animales en esta zona\n";
-        return;
-    }
-
-    NodoAnimal* actual = cabeza;
-    while (actual) {
-        actual->animal->mostrarInfo();
-        actual = actual->siguiente;
-    }
+Animal* Zona::operator-(int id) {
+    return removerAnimal(id);
 }
 
 bool Zona::puedeAgregarAnimal() {
@@ -270,8 +274,8 @@ void controlarAmbienteZona(Zona* zona) {
     cout << "Estado actual de la zona:\n";
     zona->mostrarInfo();
 
-    float nuevaTemp = 22.0 + (zona->getAnimalesActuales() * 2.0);
-    zona->ajustarTemperatura(nuevaTemp);
+    auto calcularTemp = [zona](int animales){ return 22.0f + animales*2.0f; };
+    zona->ajustarTemperatura(calcularTemp(zona->getAnimalesActuales()));
 
     cout << "Estado después del ajuste:\n";
     zona->mostrarInfo();

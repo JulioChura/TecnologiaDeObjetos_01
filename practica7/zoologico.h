@@ -3,7 +3,8 @@
 #include <string>
 using namespace std;
 //
-class Animal {
+class Animal
+{
 protected:
     int id;
     string nombre;
@@ -25,41 +26,45 @@ public:
     int getHorasSinComer() const;
     int getId() const;
     void alimentar();
-    
+
     // uso de covarianza
-    virtual Animal* alimentarse() = 0;
+    virtual Animal *alimentarse() = 0;
     virtual float calcularRacionComida() = 0;
     string getDieta() const;
 
-    friend ostream& operator<<(ostream& os, const Animal& a); // friend
+    friend ostream &operator<<(ostream &os, const Animal &a); // friend
 };
 
-class Herbivoro : public Animal {
+class Herbivoro : public Animal
+{
 public:
     float gramosVerduraPorKg;
     Herbivoro(string nom, string esp, float p, string die, float gramosPorKg);
-    Animal* alimentarse() override;
+    Animal *alimentarse() override;
     float calcularRacionComida() override;
 };
 
-class Carnivoro : public Animal {
+class Carnivoro : public Animal
+{
 public:
     float gramosCarnePorKg;
     Carnivoro(string nom, string esp, float p, string die, float gramosPorKg);
-    Animal* alimentarse() override;
+    Animal *alimentarse() override;
     float calcularRacionComida() override;
 };
 
-class Omnivoro : public Animal {
+class Omnivoro : public Animal
+{
 public:
     float gramosVerduraPorKg;
     float gramosCarnePorKg;
     Omnivoro(string nom, string esp, float p, string die, float verdura, float carne);
-    Animal* alimentarse() override;
+    Animal *alimentarse() override;
     float calcularRacionComida() override;
 };
 
-class Cuidador {
+class Cuidador
+{
 private:
     string nombre;
     int experiencia;
@@ -77,33 +82,58 @@ public:
     int getAnimalesAlimentados();
 };
 
-struct NodoAnimal {
-    Animal* animal;
-    NodoAnimal* siguiente;
+struct NodoAnimal
+{
+    Animal *animal;
+    NodoAnimal *siguiente;
 };
 
-class Zona {
+class Zona
+{
 private:
     string nombre;
     string tipoHabitat;
     int capacidadMaxima;
     int animalesActuales;
     float temperaturaActual;
-    NodoAnimal* cabeza;
+    NodoAnimal *cabeza;
 
 public:
     Zona(string nom, string habitat, int cap, float temp);
     ~Zona(); // libera nodos de la lista (no libera los Animal* porque el main los gestiona)
-    void mostrarInfo();
+    
+    inline void mostrarInfo() const
+    {
+        cout << "Zona: " << nombre << " (" << tipoHabitat << ")\n";
+        cout << "Ocupación: " << animalesActuales << "/" << capacidadMaxima
+             << " - Temperatura: " << temperaturaActual << "°C\n";
+        cout << "--- Animales en esta zona ---\n";
+        if (!cabeza)
+            cout << "No hay animales\n";
+        else
+        {
+            NodoAnimal *actual = cabeza;
+            while (actual)
+            {
+                cout << *(actual->animal) << endl; // uso friend
+                actual = actual->siguiente;
+            }
+        }
+    }
+
     bool puedeAgregarAnimal();
     void agregarAnimal(Animal *animal);
     void ajustarTemperatura(float nuevaTemp);
-    Animal* removerAnimal(int id); // ahora remueve por id
+    Animal *removerAnimal(int id); // ahora remueve por id
     string getNombre();
     int getAnimalesActuales();
+
+    // uso de carga de operadores
+    Zona& operator+(Animal* animal); 
+    Animal* operator-(int id);    
 };
 
 // funciones globales
 void revisarEstadoNutricional(Animal &animal);
 void procesarAlimentacionDiaria(Animal &animal, Cuidador &cuidador);
-void controlarAmbienteZona(Zona* zona);
+void controlarAmbienteZona(Zona *zona);

@@ -78,6 +78,9 @@ int main() {
     
     Animal* eliminado = *montaña - panda->getId();
     if(eliminado) cout << "Eliminado: " << eliminado->getNombre() << endl;
+
+    alimentarAnimalContravariante(*maria, *(dynamic_cast<Herbivoro*>(elefante)));
+    alimentarAnimalContravariante(*carlos, *(dynamic_cast<Carnivoro*>(leon)));
     
     //eliminar objetos (zonas liberan nodos pero no los Animal*)
     delete leon;

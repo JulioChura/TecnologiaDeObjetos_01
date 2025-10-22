@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <type_traits>  
+#include <typeinfo>
 using namespace std;
 //
 class Animal
@@ -137,3 +139,15 @@ public:
 void revisarEstadoNutricional(Animal &animal);
 void procesarAlimentacionDiaria(Animal &animal, Cuidador &cuidador);
 void controlarAmbienteZona(Zona *zona);
+
+//"uso" de contravarianza
+
+template <typename T>
+concept DerivadoDeAnimal = std::is_base_of<Animal, T>::value;
+
+template <DerivadoDeAnimal T>
+void alimentarAnimalContravariante(Cuidador& c, T& animal) {
+    cout << "\n[Simulación contravarianza] " << c.getNombre()
+         << " alimenta (tipo derivado): " << animal.getNombre() << endl;
+    c.alimentarAnimal(animal);
+}

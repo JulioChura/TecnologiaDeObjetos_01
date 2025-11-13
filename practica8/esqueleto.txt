@@ -1,0 +1,43 @@
+src/
+├── models/
+│   ├── personas/
+│   │   ├── Persona.java (abstracta)
+│   │   ├── Cliente.java
+│   │   ├── Empleado.java
+│   │   └── Administrador.java
+│   ├── productos/
+│   │   ├── Producto.java (abstracta)
+│   │   ├── Bebida.java
+│   │   ├── Comida.java
+│   │   ├── Postre.java
+│   │   └── Promocion.java (composite)
+│   └── pedidos/
+│       ├── EstadoPedido.java (state pattern)
+│       ├── Pedido.java
+│       └── PedidoExpress.java
+├── services/
+│   ├── gestion/
+│   │   ├── GestionClientes.java
+│   │   ├── GestionPedidos.java
+│   │   └── GestionInventario.java
+│   ├── notificaciones/
+│   │   ├── Notificador.java (strategy pattern)
+│   │   ├── EmailNotificador.java
+│   │   └── SMSNotificador.java
+│   └── pagos/
+│       ├── PagoStrategy.java (strategy)
+│       ├── EfectivoPago.java
+│       ├── TarjetaPago.java
+│       └── DigitalPago.java
+├── repositories/
+│   ├── Repository.java (generic template)
+│   ├── ClienteRepository.java
+│   ├── PedidoRepository.java
+│   └── ProductoRepository.java
+├── patterns/
+│   ├── Observable.java (observer pattern)
+│   ├── FabricaProductos.java (factory method)
+│   └── ReporteBuilder.java (builder pattern)
+└── Main.java
+
+https://chat.deepseek.com/a/chat/s/3eb6bd4b-04e2-4ee6-bcb4-03a74b6db552

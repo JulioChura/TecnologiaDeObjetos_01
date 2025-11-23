@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi ToDo List</title>
+    <link rel="stylesheet" th:href="@{/styles/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Mi Lista de Tareas</h1>
+            <p class="tagline">Organiza tu día de forma eficiente</p>
+        </header>
+        
+        <!-- Formulario para agregar tarea -->
+        <form th:action="@{/tareas}" th:object="${nuevaTarea}" method="post" class="agregar-tarea">
+            <div class="input-container">
+                <input type="text" th:field="*{descripcion}" placeholder="¿Qué necesitas hacer?" required>
+                <button type="submit" class="btn-primary"> 
+                    <span class="btn-icon">+</span> Agregar
+                </button>
+            </div>
+        </form>
+        
+        <!-- Lista de tareas -->
+        <div th:if="${tareas.empty}" class="empty-state">
+            <div class="empty-icon">✓</div>
+            <p class="sin-tareas">¡No tienes tareas pendientes!</p>
+            <p class="empty-subtitle">¡Disfruta de tu tiempo libre!</p>
+        </div>
+        
+        <ul class="lista-tareas" th:unless="${tareas.empty}">
+            <li th:each="tarea : ${tareas}" 
+                th:class="${tarea.completada} ? 'completada' : ''">
+                
+                <div class="tarea-content">
+                    <div class="checkbox-wrapper">
+                        <div class="custom-checkbox" th:classappend="${tarea.completada} ? 'checked' : ''"></div>
+                    </div>
+                    <span class="tarea-texto" th:text="${tarea.descripcion}"></span>
+                </div>
+                
+                <div class="acciones">
+                    <!-- Botón completar/desmarcar -->
+                    <form th:action="@{/tareas/{id}/toggle(id=${tarea.id})}" method="post" class="form-inline">
+                        <button type="submit" th:class="${tarea.completada} ? 'btn-secondary' : 'btn-success'">
+                            <span th:text="${tarea.completada} ? '↶' : '✓'"></span>
+                            <span th:text="${tarea.completada} ? 'Desmarcar' : 'Completar'"></span>
+                        </button>
+                    </form>
+                    
+                    <!-- Botón eliminar -->
+                    <form th:action="@{/tareas/{id}/eliminar(id=${tarea.id})}" method="post" class="form-inline">
+                        <button type="submit" class="btn-danger">
+                            <span class="btn-icon">🗑</span> Eliminar
+                        </button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+        
+        <!-- Estadísticas -->
+        <div th:if="${not tareas.empty}" class="estadisticas">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number" th:text="${tareas.size()}"></span>
+                    <span class="stat-label">Total de tareas</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
